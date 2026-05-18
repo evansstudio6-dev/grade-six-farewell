@@ -63,8 +63,6 @@ export function Gallery() {
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent opacity-80" />
               <div className="absolute inset-x-0 bottom-0 p-4">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gold/80">{p.date}</p>
-                <p className="mt-1 font-serif text-sm italic text-cream/90 line-clamp-2">{p.caption}</p>
               </div>
             </motion.button>
           ))}
@@ -95,8 +93,6 @@ export function Gallery() {
                 style={{ filter: "sepia(0.2) contrast(1.05)" }}
               />
               <div className="bg-gradient-to-t from-ink to-ink/80 p-6">
-                <p className="text-xs uppercase tracking-[0.4em] text-gold">{photos[active].date}</p>
-                <p className="mt-2 font-serif text-xl italic text-cream">{photos[active].caption}</p>
               </div>
               <button
                 onClick={() => setActive(null)}
