@@ -1,33 +1,17 @@
 import { motion } from "framer-motion";
-import { useState, useRef } from "react";
+import { Link } from "@tanstack/react-router";
 import { Particles } from "./Particles";
-import heroPoster from "@/assets/memories/m2.jpg";
+import heroPhoto from "@/assets/memories/m1.jpg";
 
 export function Hero() {
-  const [muted, setMuted] = useState(true);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setMuted(videoRef.current.muted);
-    }
-  };
-
   return (
     <section className="vignette relative h-screen w-full overflow-hidden bg-ink">
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        poster={heroPoster}
+      <img
+        src={heroPhoto}
+        alt="Class of 2026 — SDN 2 Boliyohuto"
         className="absolute inset-0 h-full w-full object-cover opacity-70 cinematic-flicker"
-      >
-        <source src="/media/hero.mp4" type="video/mp4" />
-      </video>
-      <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/40 to-ink/90" />
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/50 to-ink/95" />
       <Particles count={40} />
 
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
@@ -90,22 +74,14 @@ export function Hero() {
           >
             Open Memories
           </a>
-          <a
-            href="#journey"
+          <Link
+            to="/video"
             className="rounded-full border border-gold/60 px-8 py-3 text-sm uppercase tracking-widest text-gold transition hover:bg-gold hover:text-ink"
           >
-            See Our Journey
-          </a>
+            ▶ Watch Videos
+          </Link>
         </motion.div>
       </div>
-
-      <button
-        onClick={toggleMute}
-        className="absolute bottom-8 right-8 z-20 grid h-12 w-12 place-items-center rounded-full border border-cream/30 bg-ink/40 text-cream backdrop-blur-md transition hover:bg-cream hover:text-ink"
-        aria-label="Toggle sound"
-      >
-        {muted ? "🔇" : "🔊"}
-      </button>
 
       <motion.div
         animate={{ y: [0, 10, 0] }}

@@ -4,6 +4,7 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 import { CustomCursor } from "@/components/CustomCursor";
 import { Hero } from "@/components/Hero";
 import { Gallery } from "@/components/Gallery";
+import { EpanMessage } from "@/components/EpanMessage";
 import { Goodbye } from "@/components/Goodbye";
 
 export const Route = createFileRoute("/")({
@@ -39,6 +40,7 @@ function Index() {
       <main>
         <Hero />
         <Gallery />
+        <EpanMessage />
         <Goodbye />
       </main>
     </div>
