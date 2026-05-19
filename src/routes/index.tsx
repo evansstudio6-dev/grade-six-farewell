@@ -46,6 +46,7 @@ function Index() {
         <Hero />
         <Gallery />
         <CloudGallery />
+        <Posts />
         <ClassStats />
         <MessageBoard />
         <Goodbye />
