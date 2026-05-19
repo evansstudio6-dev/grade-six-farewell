@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { CustomCursor } from "@/components/CustomCursor";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/video")({
   component: VideoPage,
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/video")({
 
 type Clip = { src: string; title: string; subtitle: string };
 
-const clips: Clip[] = [
+const baseClips: Clip[] = [
   {
     src: "/media/hero.mp4",
     title: "Sebuah Pembuka",
@@ -34,6 +35,10 @@ const clips: Clip[] = [
     subtitle: "Cuplikan kebersamaan yang akan selalu kami ingat.",
   },
 ];
+
+function prettify(name: string) {
+  return name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
 
 function VideoCard({ clip, index }: { clip: Clip; index: number }) {
   const ref = useRef<HTMLVideoElement>(null);
@@ -90,42 +95,56 @@ function VideoCard({ clip, index }: { clip: Clip; index: number }) {
   );
 }
 
+
 function VideoPage() {
+  const [clips, setClips] = useState<Clip[]>(baseClips);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.storage
+        .from("memories")
+        .list("videos", { limit: 100, sortBy: { column: "name", order: "asc" } });
+      if (!data) return;
+      const extra = data
+        .filter((f) => f.name && !f.name.startsWith("."))
+        .map((f) => ({
+          src: supabase.storage.from("memories").getPublicUrl(`videos/${f.name}`).data.publicUrl,
+          title: prettify(f.name),
+          subtitle: "Kenangan tambahan dari kelas kami.",
+        }));
+      setClips([...baseClips, ...extra]);
+    })();
+  }, []);
+
+  return <VideoPageInner clips={clips} />;
+}
+
+function VideoPageInner({ clips }: { clips: Clip[] }) {
   return (
     <div className="grain relative min-h-screen bg-ink text-cream">
       <ScrollProgress />
       <CustomCursor />
       <main className="mx-auto max-w-5xl px-6 py-20 md:py-28">
         <div className="mb-12 flex items-center justify-between">
-          <Link
-            to="/"
-            className="text-xs uppercase tracking-[0.4em] text-cream/60 transition hover:text-gold"
-          >
+          <Link to="/" className="text-xs uppercase tracking-[0.4em] text-cream/60 transition hover:text-gold">
             ← Back Home
           </Link>
-          <p className="text-xs uppercase tracking-[0.4em] text-cream/40">
-            Reel · 2026
-          </p>
+          <p className="text-xs uppercase tracking-[0.4em] text-cream/40">Reel · 2026</p>
         </div>
-
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           className="mb-16 text-center"
         >
-          <p className="mb-4 text-xs uppercase tracking-[0.6em] text-gold/70">
-            — Moving Pictures —
-          </p>
+          <p className="mb-4 text-xs uppercase tracking-[0.6em] text-gold/70">— Moving Pictures —</p>
           <h1 className="font-display text-5xl leading-none md:text-7xl">
             Our <span className="italic text-gold">Videos</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl font-serif italic text-cream/60 md:text-lg">
-            Tekan tombol play, lalu biarkan suara dan gambarnya membawa kamu
-            kembali ke kelas 6 — sebelum semuanya berlalu.
+            Tekan tombol play, lalu biarkan suara dan gambarnya membawa kamu kembali ke kelas 6 — sebelum semuanya berlalu.
           </p>
         </motion.div>
-
         <div className="grid gap-10">
           {clips.map((c, i) => (
             <VideoCard key={c.src} clip={c} index={i} />
