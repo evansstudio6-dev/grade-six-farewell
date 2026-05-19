@@ -5,6 +5,7 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 import { CustomCursor } from "@/components/CustomCursor";
 import { Hero } from "@/components/Hero";
 import { Gallery } from "@/components/Gallery";
+import { CloudGallery } from "@/components/CloudGallery";
 import { ClassStats } from "@/components/ClassStats";
 import { MessageBoard } from "@/components/MessageBoard";
 import { Goodbye } from "@/components/Goodbye";
@@ -43,6 +44,7 @@ function Index() {
       <main>
         <Hero />
         <Gallery />
+        <CloudGallery />
         <ClassStats />
         <MessageBoard />
         <Goodbye />
