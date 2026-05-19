@@ -41,6 +41,33 @@ export type Database = {
         }
         Relationships: []
       }
+      posts: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: string
+          media_url: string
+          title: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind: string
+          media_url: string
+          title: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          media_url?: string
+          title?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
