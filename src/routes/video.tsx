@@ -95,51 +95,6 @@ function VideoCard({ clip, index }: { clip: Clip; index: number }) {
   );
 }
 
-function VideoPage() {
-  return (
-    <div className="grain relative min-h-screen bg-ink text-cream">
-      <ScrollProgress />
-      <CustomCursor />
-      <main className="mx-auto max-w-5xl px-6 py-20 md:py-28">
-        <div className="mb-12 flex items-center justify-between">
-          <Link
-            to="/"
-            className="text-xs uppercase tracking-[0.4em] text-cream/60 transition hover:text-gold"
-          >
-            ← Back Home
-          </Link>
-          <p className="text-xs uppercase tracking-[0.4em] text-cream/40">
-            Reel · 2026
-          </p>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="mb-16 text-center"
-        >
-          <p className="mb-4 text-xs uppercase tracking-[0.6em] text-gold/70">
-            — Moving Pictures —
-          </p>
-          <h1 className="font-display text-5xl leading-none md:text-7xl">
-            Our <span className="italic text-gold">Videos</span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-xl font-serif italic text-cream/60 md:text-lg">
-            Tekan tombol play, lalu biarkan suara dan gambarnya membawa kamu
-            kembali ke kelas 6 — sebelum semuanya berlalu.
-          </p>
-        </motion.div>
-
-        <div className="grid gap-10">
-          {clips.map((c, i) => (
-            <VideoCard key={c.src} clip={c} index={i} />
-          ))}
-        </div>
-      </main>
-    </div>
-  );
-}
 
 function VideoPage() {
   const [clips, setClips] = useState<Clip[]>(baseClips);
